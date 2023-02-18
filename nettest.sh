@@ -5,4 +5,5 @@
 #*ip
 #*ss
 #*iputils-ping
+#*dnsutils
 
