@@ -11,12 +11,24 @@
 pingip="8.8.8.8";
 nsname="google.com";
 
-
-pingoutput=$(ping -c 5 8.8.8.8);
+echo "Enter IP address if you wish not to use a default IP address.  Otherwise, leave blank to use default.  ";
+read userpingip;
+if [-z $userpingip]
+then
+	pingoutput=$(ping -c 5 $pingip);
+else
+	pingoutput=$(ping -c 5 $userpingip);
+fi
 echo $(echo $pingoutput | grep -oP '.{0,5}packet loss' | tr -d ',');
 
-
-nsoutput=$(nslookup google.com);
+echo "Enter website address if you wish not to use default webaddress for DNS test.  otherwise, leave blank to use default.  ";
+read userDNSaddress;
+if [-z $userDNSaddress]
+then
+	nsoutput=$(nslookup google.com);
+else
+	nsoutput=$(nslookup $userDNSaddress);
+fi
 if [$(echo $nsoutput | grep -io "nxdomain") == "NXDOMAIN"]
 then
 	echo "DNS TEST : FAIL"
