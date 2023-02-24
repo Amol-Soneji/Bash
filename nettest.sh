@@ -13,7 +13,7 @@ nsname="google.com";
 
 echo "Enter IP address if you wish not to use a default IP address.  Otherwise, leave blank to use default.  ";
 read userpingip;
-if [-z $userpingip]
+if [ -z $userpingip ]
 then
 	pingoutput=$(ping -c 5 $pingip);
 else
@@ -23,7 +23,7 @@ echo $(echo $pingoutput | grep -oP '.{0,5}packet loss' | tr -d ',');
 
 echo "Enter website address if you wish not to use default webaddress for DNS test.  otherwise, leave blank to use default.  ";
 read userDNSaddress;
-if [-z $userDNSaddress]
+if [ -z $userDNSaddress ]
 then
 	nsoutput=$(nslookup google.com);
 else
