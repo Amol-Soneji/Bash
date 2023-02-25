@@ -29,9 +29,29 @@ then
 else
 	nsoutput=$(nslookup $userDNSaddress);
 fi
-if [$(echo $nsoutput | grep -io "nxdomain") == "NXDOMAIN"]
+if [ $(echo $nsoutput | grep -io "nxdomain") == "NXDOMAIN" ]
 then
-	echo "DNS TEST : FAIL"
+	echo "DNS TEST : FAIL";
 else
-	echo "DNS TEST : PASS"
+	echo "DNS TEST : PASS";
 fi
+
+echo "Enter the number of ports you wish to see or test.  If you wish to use defaults for port or socket testing just press enter at prompt.  ";
+read numberOfTests;
+if [ -z $numberOfTests ]
+then
+	declare -a prts=( [0]="80" [1]="443" );
+else
+	count=0;
+	declare -a prts;
+	until (( count > $(($numberOfTests - 1))))
+	do
+		echo "Enter port number for port test number $(($count + 1)) :  ";
+		read portInput;
+		prts[count]=$portInput;
+		((count++));
+	done
+fi
+echo "${prts[@]}";
+sockdmp=$(ss -ln);
+echo $sockdmp;
