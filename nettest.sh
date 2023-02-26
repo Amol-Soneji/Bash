@@ -36,7 +36,7 @@ else
 	echo "DNS TEST : PASS";
 fi
 
-echo "Enter the number of ports you wish to see or test.  If you wish to use defaults for port or socket testing just press enter at prompt.  ";
+echo "Enter the number of listening ports you wish to see or test.  If you wish to use defaults for port or socket testing just press enter at prompt.  ";
 read numberOfTests;
 if [ -z $numberOfTests ]
 then
@@ -46,7 +46,7 @@ else
 	declare -a prts;
 	until (( count > $(($numberOfTests - 1))))
 	do
-		echo "Enter port number for port test number $(($count + 1)) :  ";
+		echo "Enter listening port number for port test number $(($count + 1)) :  ";
 		read portInput;
 		prts[count]=$portInput;
 		((count++));
@@ -54,4 +54,7 @@ else
 fi
 echo "${prts[@]}";
 sockdmp=$(ss -ln);
-echo $sockdmp;
+if [ $(echo $sockdmp | grep -io "Permission denied") == "Permission denied" ]
+then
+	echo "Can't do port lookup or tests, not enough privledge.  ";
+fi
