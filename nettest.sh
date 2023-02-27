@@ -1,3 +1,4 @@
+#! /bin/bash
 #This shell/bash script checks network conectivity.  
 #It also displays network info and stats.  
 #This script requires the following programs:  
@@ -38,12 +39,13 @@ fi
 
 echo "Enter the number of listening ports you wish to see or test.  If you wish to use defaults for port or socket testing just press enter at prompt.  ";
 read numberOfTests;
+declare -a prts;
 if [ -z $numberOfTests ]
 then
-	declare -a prts=( [0]="80" [1]="443" );
+	prts[0]="80";
+	prts[1]="443";
 else
 	count=0;
-	declare -a prts;
 	until (( count > $(($numberOfTests - 1))))
 	do
 		echo "Enter listening port number for port test number $(($count + 1)) :  ";
@@ -54,7 +56,13 @@ else
 fi
 echo "${prts[@]}";
 sockdmp=$(ss -ln);
-if [ $(echo $sockdmp | grep -io "Permission denied") == "Permission denied" ]
-then
-	echo "Can't do port lookup or tests, not enough privledge.  ";
-fi
+echo $sockdmp;
+for pNumb in "${prts[@]}"
+do
+	if [[ "$(echo $sockdump | grep -io ":${pNumb} ")" == ":${pNumb} " ]]
+	then
+		echo "Pass for port $pNumb";
+	else
+		echo "Fail for port $pNumb";
+	fi
+done
