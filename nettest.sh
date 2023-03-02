@@ -74,10 +74,13 @@ do
 		echo "Fail for port $pNumb";
 	fi
 done
-echo "NMap working.  This will take some time.  ";
-nMapResult=$(nmap -A -T4 127.0.0.1);
-echo "NMap complete.  Now parsing results.  ";
-for index in "${listeningPrts[@]}"
-do
-
-done
+#echo "NMap working.  This will take some time.  ";
+#nMapResult=$(nmap -A -T4 127.0.0.1);
+#echo "NMap complete.  Now parsing results.  ";
+#sedOutput=$(echo "$nMapResult" | sed -e '//,//p');
+#for index in "${listeningPrts[@]}"
+#do
+#
+#done
+echo "Network Port statistics.  ";
+ip -s link | less;
