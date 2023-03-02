@@ -59,7 +59,11 @@ sockdmp=$(ss -ln);
 echo $sockdmp;
 for pNumb in "${prts[@]}"
 do
-	if [[ "$(echo $sockdump | grep -io ":${pNumb} ")" == ":${pNumb} " ]]
+	echo ":${pNumb} ";
+	ss -ln | grep -io ":${pNumb} ";
+	echo $grepRes;
+	#if [[ "$(echo $sockdump | grep -io ":${pNumb} ")" == ":${pNumb} " ]]
+	if [[ $(ss -ln | grep -io ":${pNumb} ") == ":${pNumb} " ]]
 	then
 		echo "Pass for port $pNumb";
 	else
