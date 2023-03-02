@@ -59,6 +59,8 @@ sockdmp=$(ss -ln);
 echo $sockdmp;
 for pNumb in "${prts[@]}"
 do
+	declare -a listeningPrts;
+	count=0;
 	echo ":${pNumb} ";
 	ss -ln | grep -io ":${pNumb} ";
 	echo $grepRes;
@@ -66,7 +68,16 @@ do
 	if [[ $(ss -ln | grep -io ":${pNumb} ") == ":${pNumb} " ]]
 	then
 		echo "Pass for port $pNumb";
+		listeningPrts[$count]=$pNumb;
+		((count++));
 	else
 		echo "Fail for port $pNumb";
 	fi
+done
+echo "NMap working.  This will take some time.  ";
+nMapResult=$(nmap -A -T4 127.0.0.1);
+echo "NMap complete.  Now parsing results.  ";
+for index in "${listeningPrts[@]}"
+do
+
 done
