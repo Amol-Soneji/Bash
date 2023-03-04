@@ -2,6 +2,11 @@
 
 #This Bash script makes it easier to go thru log files.  
 
+logFileActions ()
+{
+	local itemPaths = ($@);
+}
+
 mapfile -d $'\0' logPaths < <(find /var/log/* -type f -print0);
 
 keepGoing="1";
@@ -15,13 +20,35 @@ do
 		echo "Exiting script.  ";
 	;;
 	1)
-		#To do
+		for aLogPath in "${logPaths[@]}"
+		do
+			echo "$(basename $aLogPath)";
+		done
+		logFileActions "${logPaths[@]}";
 	;;
 	2)
-		#To do
+		declare -a argumentArray;
+		for aLogPath in "${logPaths[@]}"
+		do
+			if [[ $(echo $aLogPath | grep -i "auth") ]]
+			then
+				echo "$(basename $aLogPath)";
+				argumentArray+=$aLogPath;
+			fi
+		done
+		logFileActions "${argumentArray[@]}";
 	;;
 	3)
-		#To do
+		declare -a argumentArray;
+		for aLogPath in "${logPaths[@]}"
+		do
+			if [[ $(echo $aLogPath | grep -i "faillog") ]]
+			then
+				echo "$(basename $aLogPath)";
+				argumentArray+=$aLogPath;
+			fi
+		done
+		logFileActions "${argumentArray[@]}";
 	;;
 	4)
 		#To do
