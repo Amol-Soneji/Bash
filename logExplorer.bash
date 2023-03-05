@@ -49,7 +49,7 @@ logFileActions ()
 			fi
 		;;
 		4)
-			for aPath in "${itempaths[@]}"
+			for aPath in "${itemPaths[@]}"
 			do
 				if [[ $(basename $aPath | grep -io ".gz") == ".gz" ]]
 				then
@@ -58,7 +58,13 @@ logFileActions ()
 			done
 		;;
 		5)
-			#To do
+			for aPath in "${itemPaths[@]}"
+			do
+				if [[ $(basename $aPath | grep -Eo '[1-9]' $aPath) =~ '*[1-9]' ]]
+				then
+					rm $aPath;
+				fi
+			done
 		;;
 		*)
 			echo "Invalid input.  Please try again.  ";
