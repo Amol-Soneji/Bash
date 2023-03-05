@@ -4,7 +4,7 @@
 
 logFileActions ()
 {
-	local itemPaths = ($@);
+	local itemPaths=($@);
 	workOnSameLogType="1";
 	while (($workOnSameLogType == 1))
 	do
@@ -16,7 +16,10 @@ logFileActions ()
 			workOnSameLogType="0";
 		;;
 		1)
-			echo "${itemPaths[@]}";
+			for aPath in "${itemPaths[@]}"
+			do
+				echo $(basename $apath);
+			done
 		;;
 		2)
 			echo "Enter the text that you want to search for.  :  ";
