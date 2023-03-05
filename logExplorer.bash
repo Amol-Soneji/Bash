@@ -5,6 +5,63 @@
 logFileActions ()
 {
 	local itemPaths = ($@);
+	workOnSameLogType="1";
+	while (($workOnSameLogType == 1))
+	do
+		printf "Enter one of the following options to do actions with the log file names that were previously displayed.  : \n 0-Go back to main menu prompt \n 1-Display file names again \n 2-Search for something in all the log files.  Output will use less, use the q key to get out of less.  \n 3-Search for something in a particular log file.  Output will use less.  \n 4-Delete all log files that are compressed with g-zip \n 5-Delete all old log files and only keep the current one \n";
+		read userInput;
+		case $userInput in
+		0)
+			echo "Going back to main menu.  ";
+			workOnSameLogType="0";
+		;;
+		1)
+			echo "${itemPaths[@]}";
+		;;
+		2)
+			echo "Enter the text that you want to search for.  :  ";
+			read searchInput;
+			for aPath in "${itemPaths[@]}"
+			do
+				less $aPath | grep -i $searchInput;
+			done
+		;;
+		3)
+			echo "Enter the name of the file with extension that you which to search in.  :  ";
+			read fileName;
+			echo "Enter the text that you want to search for.  :  ";
+			read searchInput;
+			fileFound="0";
+			for aPath in "${itemPaths[@]}"
+			do
+				if [[ $(basename $aPath) == $fileName && (( $fileFound == "0" )) ]]
+				then
+					less $aPath | grep -i $searchInput;
+					fileFound="1";
+				fi
+			done
+			if (( $fileFound == 0 ))
+			then
+				echo "Error.  The name of the log file the was entered was not found.  ";
+			fi
+		;;
+		4)
+			for aPath in "${itempaths[@]}"
+			do
+				if [[ $(basename $aPath | grep -io ".gz") == ".gz" ]]
+				then
+					rm $aPath;
+				fi
+			done
+		;;
+		5)
+			#To do
+		;;
+		*)
+			echo "Invalid input.  Please try again.  ";
+		;;
+		esac
+	done
 	#To do
 }
 
