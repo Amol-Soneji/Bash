@@ -152,7 +152,7 @@ do
 				argumentArray+=$aLogPath;
 			fi
 		done
-		logActions "${argumentArray[@]}";
+		logFileActions "${argumentArray[@]}";
 	;;
 	*)
 		echo "Invalid input for prompt.  Please try again.  ";
